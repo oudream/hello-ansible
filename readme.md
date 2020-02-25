@@ -31,3 +31,10 @@ Ansible由Michael DeHaan编写，并于2015年被Red Hat收购。Ansible是无�
 - 它比较适合这种场景：
 对配置生效的时间敏感，十分关心。必须让他们即可生效，如果不生效，立马要采取行动让他们生效。
 配置生效的顺序十分关心和敏感。比如需要这10个节点一起生效，或者按照依次生效。
+
+
+
+[man/7-steps](https://github.com/jibill/myblog)
+[examples/frpaulas-iphod-ansible](https://github.com/frpaulas/iphod)
+[https://github.com/welliamcao/OpsManage](https://github.com/welliamcao/OpsManage)
+
