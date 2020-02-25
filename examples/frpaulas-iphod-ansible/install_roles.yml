@@ -1,0 +1,7 @@
+# install_roles.yml
+
+# ansible-galaxy install --roles-path roles.galaxy -r install_roles.yml
+
+- src: iphod.users
+- src: iphod.elixir-release
+- src: ANXS.postgresql
