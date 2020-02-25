@@ -1,0 +1,24 @@
+[submodule "referto/ansible-examples"]
+	path = referto/ansible-examples
+	url = https://github.com/ansible/ansible-examples
+[submodule "referto/ansible-for-devops"]
+	path = referto/ansible-for-devops
+	url = https://github.com/geerlingguy/ansible-for-devops.git
+[submodule "referto/ansible-tuto"]
+	path = referto/ansible-tuto
+	url = https://github.com/leucos/ansible-tuto.git
+[submodule "referto/ansible-role-jenkins"]
+	path = referto/ansible-role-jenkins
+	url = https://github.com/geerlingguy/ansible-role-jenkins.git
+[submodule "referto/ansible-vagrant-examples"]
+	path = referto/ansible-vagrant-examples
+	url = https://github.com/geerlingguy/ansible-vagrant-examples.git
+[submodule "referto/streisand-vpn"]
+	path = referto/streisand-vpn
+	url = https://github.com/StreisandEffect/streisand.git
+[submodule "referto/algo-vpn"]
+	path = referto/algo-vpn
+	url = https://github.com/trailofbits/algo.git
+[submodule "referto/sovereign-playbooks"]
+	path = referto/sovereign-playbooks
+	url = https://github.com/sovereign/sovereign.git
