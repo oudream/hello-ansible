@@ -34,7 +34,10 @@ Ansible由Michael DeHaan编写，并于2015年被Red Hat收购。Ansible是无�
 
 
 
+#### reference
+[https://github.com/bregman-arie/devops-exercises](https://github.com/bregman-arie/devops-exercises)
+[https://github.com/welliamcao/OpsManage](https://github.com/welliamcao/OpsManage)
+
 [man/7-steps](https://github.com/jibill/myblog)
 [examples/frpaulas-iphod-ansible](https://github.com/frpaulas/iphod)
-[https://github.com/welliamcao/OpsManage](https://github.com/welliamcao/OpsManage)
 
