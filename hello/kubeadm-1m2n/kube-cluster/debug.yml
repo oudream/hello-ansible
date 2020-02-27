@@ -1,0 +1,8 @@
+- hosts: master
+  become: yes
+  tasks:
+    - name: debug specified user's home dir through lookup on env
+      become: yes
+      become_user: ubuntu
+      shell:
+        cmd: echo "/root" >> /tmp/aa
