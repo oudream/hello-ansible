@@ -22,3 +22,6 @@
 [submodule "referto/sovereign-playbooks"]
 	path = referto/sovereign-playbooks
 	url = https://github.com/sovereign/sovereign.git
+[submodule "referto/ansiblebook"]
+	path = referto/ansiblebook
+	url = https://github.com/ansiblebook/ansiblebook.git
