@@ -1,0 +1,11 @@
+- hosts: all
+  remote_user: root
+
+  tasks:
+
+    - name: Install cobbler
+      package:
+        name: cobbler
+        state: present
+      environment:
+        http_proxy: http://proxy.example.com:8080

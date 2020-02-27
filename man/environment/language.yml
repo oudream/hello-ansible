@@ -1,0 +1,33 @@
+---
+### A playbook demonstrating a common npm workflow:
+# - Check for package.json in the application directory
+# - If package.json exists:
+#   * Run npm prune
+#   * Run npm install
+
+- hosts: application
+  become: false
+
+  vars:
+    node_app_dir: /var/local/my_node_app
+
+  environment:
+    NVM_DIR: /var/local/nvm
+    PATH: /var/local/nvm/versions/node/v4.2.1/bin:{{ ansible_env.PATH }}
+
+  tasks:
+  - name: check for package.json
+    stat:
+      path: '{{ node_app_dir }}/package.json'
+    register: packagejson
+
+  - name: npm prune
+    command: npm prune
+    args:
+      chdir: '{{ node_app_dir }}'
+    when: packagejson.stat.exists
+
+  - name: npm install
+    npm:
+      path: '{{ node_app_dir }}'
+    when: packagejson.stat.exists
