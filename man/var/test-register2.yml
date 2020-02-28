@@ -1,0 +1,9 @@
+---
+- hosts: test
+  remote_user: root
+  tasks:
+      - name: register test
+        shell: hostname
+        register: info
+      - name: display info
+        debug: msg="Hostname is {{ info['stdout'] }}"

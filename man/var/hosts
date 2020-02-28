@@ -1,0 +1,10 @@
+---
+# 针对单个主机定义变量
+192.168.243.146 keyvalue=centos
+
+[test]
+192.168.243.146
+
+# 组定义变量
+[test:vars]
+keyvalue=vmware centos7

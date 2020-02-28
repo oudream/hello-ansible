@@ -1,0 +1,7 @@
+---
+- hosts: test
+  remote_user: root
+  tasks:
+      - name: debug
+        debug: msg="The {{ inventory_hostname }} Value is {{ keyvalue }}"
+

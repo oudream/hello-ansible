@@ -1,0 +1,16 @@
+---
+- hosts: test
+  remote_user: root
+  vars_prompt:
+      - name: "var1"
+        prompt: "input value for var1"
+        private: no
+      - name: "var2"
+        prompt: "input value for var2"
+        private: yes
+        default: 'test var2'
+  tasks:
+      - name: display var1
+        debug: msg="The value of var1 is {{ var1 }}"
+      - name: display var2
+        debug: msg="The value of var2 is {{ var2 }}"

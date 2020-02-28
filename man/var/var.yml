@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: True
+
+  vars:
+    user_list:
+      - name: 'root'
+        path: '~/'
+
+      - name: '{{ ansible_ssh_user
+                  if ansible_ssh_user|d()
+                  else lookup("env","USER") }}'
+        path: '~/'
+
+  tasks:
+
+    - name: List users
+      debug: var=user_list
+
+    - name: Grab home dir
+      command: 'ls {{ item.path }}'
+      become_user: '{{ item.name }}'
+      with_items: '{{ user_list }}'
+      register: home_dirs
+
+    - name: Show home dir
+      debug:
+        msg: 'Files of user {{ item.item.name }} are: {{ item.stdout_lines }}'
+      with_items: '{{ home_dirs.results }}'
