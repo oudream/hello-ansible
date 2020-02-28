@@ -1,0 +1,6 @@
+# file: group_vars/staging
+ansible_connection: ssh
+ansible_ssh_user: root 
+ansible_ssh_pass: vagrant
+username: www-data
+test_app: Test site

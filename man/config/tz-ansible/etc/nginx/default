@@ -1,0 +1,34 @@
+server {
+
+	server_name server.tz.com;
+	
+	access_log /var/log/nginx/nagios-access.log;
+	error_log /var/log/nginx/nagios-error.log;
+	
+	auth_basic "Nagios Restricted Access";
+	auth_basic_user_file /usr/local/nagios/etc/htpasswd.users;
+	
+	root /usr/local/nagios/share; 
+	index index.php index.html;
+	
+	location ~ \.cgi$ {
+	    root /usr/local/nagios/sbin;
+	    rewrite ^/nagios/cgi-bin/(.*)$ /$1;
+	    rewrite ^/cgi-bin/(.*)$ /$1;
+	    include /etc/nginx/fastcgi_params;
+	
+	    fastcgi_param AUTH_USER $remote_user;
+	    fastcgi_param REMOTE_USER $remote_user;
+	    fastcgi_param SCRIPT_FILENAME /usr/local/nagios/sbin/$fastcgi_script_name;
+	    fastcgi_pass unix:/var/run/fcgiwrap.socket;
+	  }
+	
+	  location ~ \.php$ {
+	  	include snippets/fastcgi-php.conf;
+	  	fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+	    fastcgi_split_path_info ^(.+\.php)(.*)$;
+	    fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+	    #fastcgi_param  PATH_INFO $fastcgi_script_name;
+	    include         fastcgi_params;
+	  }
+}

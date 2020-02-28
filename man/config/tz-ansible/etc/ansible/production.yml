@@ -1,0 +1,5 @@
+- name: 
+  hosts: production
+  roles:
+    - redis
+    - mysql    

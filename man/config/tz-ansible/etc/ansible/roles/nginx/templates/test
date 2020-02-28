@@ -1,0 +1,11 @@
+server {
+
+	server_name _;
+	
+	access_log /var/log/nginx/nagios-access.log;
+	error_log /var/log/nginx/nagios-error.log;
+	
+	root /var/www/html; 
+	index index.html;
+	
+}

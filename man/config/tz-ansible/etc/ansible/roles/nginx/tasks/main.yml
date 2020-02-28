@@ -1,0 +1,56 @@
+---
+- name: Add Nginx repo
+  apt_repository:
+    repo: ppa:nginx/development
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+    force: yes
+    update_cache: yes
+
+- name: Check Nginx test configs exist
+  stat: path=/etc/nginx/sites-available/test
+  register: test_exists
+
+- name: Remove default Nginx configs
+  file:
+    path: /etc/nginx/sites-available/test
+    state: absent
+  when: not test_exists.stat.exists
+
+- name: Remove default Nginx configs
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Update configuration file
+  template: src=test dest=/etc/nginx/sites-available/test owner=root group=root mode=0644
+  when: not test_exists.stat.exists
+
+- name: Symlink default site
+  file: 
+    src: /etc/nginx/sites-available/test
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: reload nginx    
+
+- name: Set Nginx user
+  lineinfile: 
+    dest: /etc/nginx/nginx.conf
+    regexp: "^user"
+    line: "user {{ username }};"
+    state: present
+  notify: restart nginx
+  
+- name: Update html file
+  template: src=index.nginx-debian.html dest=/var/www/html/index.html owner=root group=root mode=0644
+  
+- name: Set html site name
+  lineinfile: 
+    dest: /var/www/html/index.html
+    line: "<title>Welcome to {{test_app}}!</title>"
+  
+    
+  

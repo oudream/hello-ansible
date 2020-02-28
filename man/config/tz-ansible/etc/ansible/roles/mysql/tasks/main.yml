@@ -1,0 +1,12 @@
+- name: Install MySQL Server
+  apt: name={{ item }} state=latest
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: Copy configuration file
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644
+  notify: restart mysql
+
+- name: Update MySQL root password for all root accounts
+  mysql_user: host="%" name=root password={{ mysql.admin_password }} priv=*.*:ALL,GRANT
