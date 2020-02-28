@@ -1,5 +1,33 @@
 #!/usr/bin/env bash
 
+open https://docs.ansible.com/ansible/latest/user_guide/modules.html
+open https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
+
+
+#    Module Index
+#    All modules
+#    Cloud modules
+#    Clustering modules
+#    Commands modules
+#    Crypto modules
+#    Database modules
+#    Files modules
+#    Identity modules
+#    Inventory modules
+#    Messaging modules
+#    Monitoring modules
+#    Net Tools modules
+#    Network modules
+#    Notification modules
+#    Packaging modules
+#    Remote Management modules
+#    Source Control modules
+#    Storage modules
+#    System modules
+#    Utilities modules
+#    Web Infrastructure modules
+#    Windows modules
+
 
 ### How to get an arbitrary remote user's home directory in Ansible?
 open https://stackoverflow.com/questions/33343215/how-to-get-an-arbitrary-remote-users-home-directory-in-ansible
