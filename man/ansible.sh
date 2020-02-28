@@ -22,6 +22,7 @@ ansible all -m command -a 'id' -k
 # 批量部署证书文件
 ansible all -m authorized_key -a "user=root exclusive=true manage_dir=true key='$(</root/.ssh/authorized_keys)'" -k -v
 
+# state=present（安装） adsent（卸载）
 
 ### guide, start
 open https://github.com/ansible/ansible

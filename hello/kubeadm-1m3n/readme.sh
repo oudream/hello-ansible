@@ -10,6 +10,9 @@ ansible -i hosts all -m ping
 ansible -i hosts all -m command -a 'echo $HOME'
 
 
+ansible -i hosts all -m shell -a 'tar zcvf /opt/log1.tar.gz /var/log/*.log'
+
+
 ### 安装前检查
 # 确保每个节点上 MAC 地址和 product_uuid 的唯一性
 ansible -i hosts all -m command -a 'ip link'
@@ -44,6 +47,20 @@ ansible master1 -m command -a 'echo $HOME'
 ansible master1 -m command -a 'ls -l $HOME'
 ansible master1 -m command -a 'chdir $HOME && echo $PWD'
 ansible master1 -m command -a 'chdir $HOME && cat cluster_initialized.txt'
+
+
+
+### referto
+open https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+apt-get update && apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+apt-get update
+apt-get install -y kubelet kubeadm kubectl
+apt-mark hold kubelet kubeadm kubectl
+
 
 
 ### after install kubernetes and flannel
