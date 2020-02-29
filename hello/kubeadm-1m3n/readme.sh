@@ -2,6 +2,7 @@
 #has notice
 
 open https://kubernetes.io/zh/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+open https://github.com/coreos/flannel
 open https://www.digitalocean.com/community/tutorials/how-to-create-a-kubernetes-cluster-using-kubeadm-on-ubuntu-18-04
 open https://en.llycloud.com/archives/1438
 
@@ -73,6 +74,13 @@ kubectl delete service nginx
 kubectl delete deployment nginx
 kubectl get deployments
 
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "Deployment" in version "extensions/v1beta1"
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "Deployment" in version "extensions/v1beta1"
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "Deployment" in version "extensions/v1beta1"
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "Deployment" in version "extensions/v1beta1"
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "DaemonSet" in version "extensions/v1beta1"
+unable to recognize "https://raw.githubusercontent.com/giantswarm/prometheus/master/manifests-all.yaml": no matches for kind "DaemonSet" in version "extensions/v1beta1"
+
 
 ### prepare
 cat >> /etc/hosts <<EOF
@@ -93,13 +101,12 @@ mkdir ~/kube-cluster
 cd ~/kube-cluster
 
 # notice, notice, notice：ansible_host=自己的真实 IP
-cat >> ~/kube-cluster/hosts <<EOF
+cat > ~/kube-cluster/hosts <<EOF
 [masters]
-master ansible_host=master1 ansible_user=root
+master1 ansible_host=master1 ansible_user=root
 
 [workers]
 worker1 ansible_host=node1 ansible_user=root
-worker2 ansible_host=node2 ansible_user=root
 worker3 ansible_host=node3 ansible_user=root
 
 [all:vars]
@@ -144,7 +151,7 @@ ansible -i hosts all -m shell -a "getent passwd user1  | awk -F: \"{ print \$6 }
 # 添加Kubernetes APT存储库的apt-key进行密钥验证。
 # 将Kubernetes APT存储库添加到远程服务器的APT源列表中。
 # 安装kubelet和kubeadm。
-cat >> ~/kube-cluster/kube-dependencies.yml <<EOF
+cat > ~/kube-cluster/kube-dependencies.yml <<EOF
 - hosts: all
   become: yes
   tasks:
@@ -172,21 +179,21 @@ cat >> ~/kube-cluster/kube-dependencies.yml <<EOF
 
    - name: install kubelet
      apt:
-       name: kubelet=1.14.0-00
+       name: kubelet=1.17.2-00
        state: present
        update_cache: true
 
    - name: install kubeadm
      apt:
-       name: kubeadm=1.14.0-00
+       name: kubeadm=1.17.2-00
        state: present
 
-- hosts: master
+- hosts: master1
   become: yes
   tasks:
    - name: install kubectl
      apt:
-       name: kubectl=1.14.0-00
+       name: kubectl=1.17.2-00
        state: present
        force: yes
 EOF
@@ -204,21 +211,21 @@ ansible-playbook -i hosts ~/kube-cluster/kube-dependencies.yml
 #       这将允许用于kubectl访问新创建的群集。
 # 最后一个任务运行kubectl apply安装Flannel。kubectl apply -f descriptor.[yml|json]是告诉kubectl
 #       创建descriptor.[yml|json]文件中描述的对象的语法。该kube-flannel.yml文件包含Flannel在群集中设置所需对象的说明。
-cat > ~/kube-cluster/master.yml <<EOF
-- hosts: master
+cat > ~/kube-cluster/master1.yml <<EOF
+- hosts: master1
   become: yes
   tasks:
     - name: initialize the cluster
       shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
       args:
-        chdir: $HOME
+        chdir: \$HOME
         creates: cluster_initialized.txt
 
     - name: create .kube directory
       become: yes
       become_user: user1
       file:
-        path: /home/user1/.kube
+        path: \$HOME/.kube
         state: directory
         mode: 0755
 
@@ -232,18 +239,18 @@ cat > ~/kube-cluster/master.yml <<EOF
     - name: install Pod network
       become: yes
       become_user: user1
-      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml >> pod_network_setup.txt
+      shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml >> pod_network_setup.txt
       args:
-        chdir: /home/user1
+        chdir: \$HOME
         creates: pod_network_setup.txt
 EOF
 # 通过运行本地执行Playbook：
-ansible-playbook -i hosts ~/kube-cluster/master.yml
+ansible-playbook -i hosts ~/kube-cluster/master1.yml
 
 
 ### step5
 cat >> ~/kube-cluster/workers.yml <<EOF
-- hosts: master
+- hosts: master1
   become: yes
   gather_facts: false
   tasks:
@@ -260,13 +267,11 @@ cat >> ~/kube-cluster/workers.yml <<EOF
   become: yes
   tasks:
     - name: join cluster
-      shell: "{{ hostvars['master'].join_command }} >> node_joined.txt"
+      shell: "{{ hostvars['master1'].join_command }} >> node_joined.txt"
       args:
-        chdir: $HOME
+        chdir: \$HOME
         creates: node_joined.txt
 EOF
 # 通过运行本地执行Playbook：
 ansible-playbook -i hosts ~/kube-cluster/workers.yml
-
-
 
