@@ -25,3 +25,6 @@
 [submodule "referto/ansiblebook"]
 	path = referto/ansiblebook
 	url = https://github.com/ansiblebook/ansiblebook.git
+[submodule "referto/kubeasz"]
+	path = referto/kubeasz
+	url = https://github.com/easzlab/kubeasz.git
