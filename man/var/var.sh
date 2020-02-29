@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+open https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
 open https://blog.csdn.net/felix_yujing/article/details/76792933
 
 # ansible使用变量的优先级顺序从高到低为：

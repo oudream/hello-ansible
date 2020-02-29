@@ -115,3 +115,17 @@ ansible-playbook -i hosts debug.yml -vv
 #  PID TTY          TIME CMD", "25788 pts/0    00:00:00 sh", "25789 pts/0    00:00:00 python3", "25791 pts/0    00:00:00 ps
 #  PID TTY          TIME CMD", "25808 pts/0    00:00:00 sh", "25809 pts/0    00:00:00 python3", "25811 pts/0    00:00:00 ps
 
+cat > debug.yml <<EOF
+- hosts: master
+  become: yes
+
+  tasks:
+    - name: debug specified user's home dir through lookup on env
+      become: yes
+      become_user: user1
+      # become_flags: -H
+      command:
+        chdir: \$HOME
+        cmd: "echo \$HOME"
+EOF
+ansible-playbook -i hosts debug.yml -vv

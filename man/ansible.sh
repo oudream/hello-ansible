@@ -24,6 +24,7 @@ ansible all -m authorized_key -a "user=root exclusive=true manage_dir=true key='
 
 # state=present（安装） adsent（卸载）
 
+
 ### guide, start
 open https://github.com/ansible/ansible
 open https://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.html
